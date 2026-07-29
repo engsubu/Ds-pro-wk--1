@@ -1,58 +1,43 @@
-# Week 2: Exploratory Data Analysis and Visualization
-# Project: Customer Churn Prediction
-
-# Step 1: Import Libraries
+import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
 
-# Set style
-sns.set_style("whitegrid")
-plt.rcParams["figure.figsize"] = (10,6)
+st.set_page_config(page_title="Churn Prediction Dashboard", layout="wide")
+st.title("📊 Customer Churn Prediction - Week 2 EDA")
+st.markdown("### Virtual Data Science Explorer Internship")
 
-# Step 2: Load Dataset
-# df = pd.read_csv('data/customer_data.csv')
-print("Dataset Loaded Successfully")
+uploaded_file = st.file_uploader("Upload customer_data.csv", type="csv")
 
-# Step 3: Data Cleaning
-def clean_data(df):
-    # Remove duplicates
-    df.drop_duplicates(inplace=True)
-    # Handle missing values
-    df.fillna(df.mean(numeric_only=True), inplace=True)
-    return df
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
 
-# Step 4: Exploratory Data Analysis
-def perform_eda(df):
-    print(df.head())
-    print(df.info())
-    print(df.describe())
-    
-    # Correlation Heatmap
-    plt.figure()
-    sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="coolwarm")
-    plt.title("Correlation Heatmap")
-    plt.savefig("diagrams/correlation.png")
-    
-    # Churn Distribution
-    plt.figure()
-    sns.countplot(x='Churn', data=df)
-    plt.title("Customer Churn Distribution")
-    plt.savefig("diagrams/churn_dist.png")
+    st.subheader("1. Dataset Preview")
+    st.dataframe(df.head(10))
 
-# Step 5: Feature Engineering
-def feature_engineering(df):
-    le = LabelEncoder()
-    df['Gender'] = le.fit_transform(df['Gender'])
-    return df
+    st.subheader("2. Key Metrics")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Customers", df.shape[0])
+    col2.metric("Total Features", df.shape[1])
+    col3.metric("Missing Values", df.isnull().sum().sum())
 
-# Main Function
-if __name__ == "__main__":
-    # df = pd.read_csv('data/customer_data.csv')
-    # df = clean_data(df)
-    # df = feature_engineering(df)
-    # perform_eda(df)
-    print("EDA Template Ready. Uncomment lines when you have dataset.")
+    st.subheader("3. Data Info")
+    st.write(df.describe())
+
+    st.subheader("4. Visualizations")
+
+    if 'Churn' in df.columns:
+        fig1, ax1 = plt.subplots()
+        sns.countplot(x='Churn', data=df, ax=ax1, palette="Set2")
+        ax1.set_title("Churn Distribution")
+        st.pyplot(fig1)
+
+    fig2, ax2 = plt.subplots(figsize=(10,6))
+    sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="coolwarm", ax=ax2)
+    ax2.set_title("Correlation Heatmap")
+    st.pyplot(fig2)
+
+    st.success("EDA Complete! Ready for Week 3 Modeling")
+else:
+    st.info("👆 Please upload a CSV file to start EDA")
