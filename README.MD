@@ -1,15 +1,17 @@
-    # Week 1: Data Science Project Planning
-    
-    ## Project: Customer Churn Prediction for E-Commerce
-    **Objective**: Plan a complete data science workflow using Python to predict customer churn.
-    
-    ### Deliverables
-    - `Project_Plan_Document.docx` - Full project plan
-    - `diagrams/` - Flowchart and Timeline
-    - `src/eda_template.py` - Python code structure for Week 2
-    
-    ### Tools & Libraries Planned
-    Python, pandas, numpy, matplotlib, seaborn, scikit-learn, Jupyter
-    
-    ### Timeline
-    4 weeks, 30-35 hours
+# Week 1: Customer Churn Prediction - Project Planning
+
+## 📌 Overview
+Data Science project to predict customer churn for e-commerce using Python.
+
+## 🎯 Objective
+Build a plan to identify at-risk customers and reduce churn by 10%.
+
+## 🛠️ Tech Stack
+Python, pandas, numpy, matplotlib, seaborn, scikit-learn, Streamlit
+
+## 📅 Timeline
+4 Weeks | 30-35 Hours
+
+## 🚀 Run Streamlit App
+`pip install -r requirements.txt`
+`streamlit run app.py`
